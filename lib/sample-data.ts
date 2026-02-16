@@ -1,0 +1,193 @@
+import type { Product } from "./types"
+
+export const sampleCatalogProducts: Product[] = [
+  {
+    id: "cat-1",
+    name: "Premium Jasmine Rice",
+    price: 45,
+    category: "Grains & Cereals",
+    description:
+      "Our Premium Jasmine Rice is sourced from the finest paddy fields, offering a fragrant aroma and fluffy texture. Ideal for international restaurants, food distributors, and retail markets. Available in bulk quantities with customizable packaging options.",
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "Thailand / Vietnam",
+      "Grain Length": "6.2 - 7.0 mm",
+      "Moisture Content": "Max 14%",
+      "Broken Rate": "Max 5%",
+      Packaging: "25kg / 50kg PP bags",
+      "Shelf Life": "24 months",
+      Certification: "ISO 22000, HACCP",
+    },
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "cat-2",
+    name: "Organic Ground Turmeric",
+    price: 120,
+    category: "Spices & Seasonings",
+    description:
+      "High-curcumin organic turmeric powder, cold-ground to preserve maximum nutritional value. Perfect for food manufacturers, health food stores, and spice importers. Rich golden color with an earthy, warm flavor profile.",
+    image: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "India",
+      "Curcumin Content": "Min 3.5%",
+      "Moisture Content": "Max 10%",
+      "Mesh Size": "80-100 mesh",
+      Packaging: "10kg / 25kg food-grade bags",
+      "Shelf Life": "18 months",
+      Certification: "USDA Organic, EU Organic",
+    },
+    createdAt: "2024-01-20",
+  },
+  {
+    id: "cat-3",
+    name: "Canned Sweet Corn",
+    price: 28,
+    category: "Canned Goods",
+    description:
+      "Premium quality whole kernel sweet corn, harvested at peak sweetness and canned within hours. No preservatives or artificial colors. Suitable for supermarkets, food service, and institutional buyers worldwide.",
+    image: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "China",
+      "Net Weight": "340g / 425g / 2500g",
+      "Drained Weight": "Min 60% of net weight",
+      Ingredients: "Sweet corn, water, salt, sugar",
+      Packaging: "Tin cans, 24 cans/carton",
+      "Shelf Life": "36 months",
+      Certification: "BRC, IFS, HACCP",
+    },
+    createdAt: "2024-02-01",
+  },
+  {
+    id: "cat-4",
+    name: "Green Tea Leaves - Dragon Well",
+    price: 85,
+    category: "Beverages",
+    description:
+      "Authentic Dragon Well (Longjing) green tea from Hangzhou, one of China's most celebrated teas. Hand-picked during early spring for the finest quality. Flat, smooth leaves with a distinctive chestnut aroma and mellow sweetness.",
+    image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "Hangzhou, China",
+      Grade: "Premium AAA",
+      "Harvest Season": "Early Spring (April)",
+      Processing: "Pan-fired, hand-rolled",
+      Packaging: "100g / 250g / 500g tins or bags",
+      "Shelf Life": "18 months",
+      Certification: "China Green Food, ISO 9001",
+    },
+    createdAt: "2024-02-10",
+  },
+  {
+    id: "cat-5",
+    name: "Premium Soy Sauce",
+    price: 35,
+    category: "Sauces & Condiments",
+    description:
+      "Naturally brewed premium soy sauce using traditional fermentation methods. Rich umami flavor with a balanced saltiness, perfect for Asian cuisine and food manufacturing. Available in various grades and packaging sizes.",
+    image: "https://images.unsplash.com/photo-1585325701165-351af045e1b3?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "China",
+      "Brewing Method": "Naturally Brewed (6+ months)",
+      "Sodium Content": "16-18%",
+      Ingredients: "Soybeans, wheat, salt, water",
+      Packaging: "150ml / 500ml / 1L / 5L / 20L",
+      "Shelf Life": "24 months",
+      Certification: "HACCP, Halal, Kosher",
+    },
+    createdAt: "2024-02-15",
+  },
+  {
+    id: "cat-6",
+    name: "Dried Goji Berries",
+    price: 95,
+    category: "Snacks",
+    description:
+      "Premium sun-dried goji berries from Ningxia, China, known for their superior sweetness and nutritional content. Rich in antioxidants, vitamins, and minerals. Ideal for health food retailers, supplement manufacturers, and bulk distributors.",
+    image: "https://images.unsplash.com/photo-1604514628550-37477afdf4e3?w=800&q=80",
+    type: "catalog",
+    specifications: {
+      Origin: "Ningxia, China",
+      Size: "280-380 grains/50g",
+      "Moisture Content": "Max 13%",
+      "Sulfur Dioxide": "Non-fumigated",
+      Packaging: "5kg / 10kg / 20kg cartons",
+      "Shelf Life": "12 months",
+      Certification: "Organic, Non-GMO, HACCP",
+    },
+    createdAt: "2024-03-01",
+  },
+]
+
+export const sampleStoreProducts: Product[] = [
+  {
+    id: "store-1",
+    name: "Instant Ramen Variety Pack",
+    price: 18.99,
+    category: "Snacks",
+    description:
+      "A curated selection of our best-selling instant noodle flavors, including Spicy Beef, Chicken Mushroom, and Seafood. Each pack contains 12 individual servings with authentic Asian flavors. Perfect for retail distribution.",
+    image: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=800&q=80",
+    type: "store",
+    createdAt: "2024-01-10",
+  },
+  {
+    id: "store-2",
+    name: "Oolong Tea Collection",
+    price: 32.5,
+    category: "Beverages",
+    description:
+      "A premium collection of Oolong teas featuring Tieguanyin, Da Hong Pao, and Oriental Beauty varieties. Each tea is individually wrapped in foil sachets to preserve freshness and aroma. Gift-ready packaging included.",
+    image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80",
+    type: "store",
+    createdAt: "2024-01-18",
+  },
+  {
+    id: "store-3",
+    name: "Premium Coconut Milk",
+    price: 24.0,
+    category: "Canned Goods",
+    description:
+      "Rich and creamy coconut milk made from freshly pressed coconut meat. No preservatives, no added sugar. Perfect for curries, desserts, smoothies, and beverages. Pack of 12 cans (400ml each).",
+    image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=800&q=80",
+    type: "store",
+    createdAt: "2024-02-05",
+  },
+  {
+    id: "store-4",
+    name: "Organic Quinoa - White",
+    price: 42.0,
+    category: "Grains & Cereals",
+    description:
+      "Certified organic white quinoa, triple-washed and ready to cook. High in protein, fiber, and essential amino acids. Ideal for health-conscious consumers and organic food retailers. 5kg bulk bag.",
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80",
+    type: "store",
+    createdAt: "2024-02-12",
+  },
+  {
+    id: "store-5",
+    name: "Chili Garlic Sauce",
+    price: 15.99,
+    category: "Sauces & Condiments",
+    description:
+      "Bold and flavorful chili garlic sauce made from fresh red chilies and garlic. Medium heat level with a savory kick. Versatile condiment for stir-fries, marinades, and dipping. Pack of 6 bottles (280ml each).",
+    image: "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?w=800&q=80",
+    type: "store",
+    createdAt: "2024-02-20",
+  },
+  {
+    id: "store-6",
+    name: "Dried Mango Slices",
+    price: 22.5,
+    category: "Snacks",
+    description:
+      "Naturally dried mango slices with no added sugar or preservatives. Sweet, chewy, and packed with tropical flavor. A healthy snack option for retail markets and food service. 10 bags x 200g.",
+    image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=800&q=80",
+    type: "store",
+    createdAt: "2024-03-05",
+  },
+]
