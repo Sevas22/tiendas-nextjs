@@ -214,7 +214,7 @@ export default function RequestClient() {
                         handleChange("message", e.target.value)
                       }
                     />
-                  </div>
+                </div>
                 </div>
 
                 <Button type="submit" size="lg" className="w-full gap-2">
