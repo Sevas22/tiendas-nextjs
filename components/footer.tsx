@@ -16,8 +16,8 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
             <Link href="/" className="flex items-center gap-2">
-              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 px-1">
-                <img src="/venextrading-logo.png" alt="venextrading" className="h-full w-auto object-contain [filter:drop-shadow(0_0_6px_rgba(255,255,255,0.3))]" />
+              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white px-2 py-1.5">
+                <img src="/venextrading-logo.png" alt="venextrading" className="h-full w-auto object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold leading-tight tracking-tight text-white">
@@ -91,7 +91,7 @@ export function Footer() {
                 placeholder={t.footer.emailPlaceholder}
                 className="border-white/20 bg-white/10 text-white placeholder:text-white/40"
               />
-              <Button size="icon" className="shrink-0 bg-gold text-white hover:bg-gold/90">
+              <Button size="icon" className="shrink-0 bg-gold text-white shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]">
                 <Send className="h-4 w-4" />
               </Button>
             </div>

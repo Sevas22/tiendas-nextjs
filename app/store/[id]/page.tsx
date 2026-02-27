@@ -67,14 +67,14 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
 
           {/* Details */}
           <div className="flex w-full flex-col lg:w-1/2">
-            <Badge className="mb-3 w-fit bg-gold text-white">{product.category}</Badge>
+            <Badge className="mb-3 w-fit bg-gold text-foreground font-medium">{product.category}</Badge>
             <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               {product.name}
             </h1>
 
             {/* Price */}
             <div className="mb-6 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-primary">${product.price.toFixed(2)}</span>
+              <span className="text-4xl font-bold text-[#1A51BE]">${product.price.toFixed(2)}</span>
               <span className="text-sm text-muted-foreground">USD</span>
             </div>
 
@@ -134,7 +134,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
-                <span className="ml-4 text-lg font-semibold text-primary">
+                <span className="ml-4 text-lg font-semibold text-[#1A51BE]">
                   {t.storePage.total}: ${(product.price * quantity).toFixed(2)}
                 </span>
               </div>
@@ -144,7 +144,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
             <Button
               asChild
               size="lg"
-              className="mt-auto bg-gold text-white hover:bg-gold/90"
+              className="mt-auto bg-gold text-foreground shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]"
             >
               <Link href={`/request?product=${encodeURIComponent(product.name)}&qty=${quantity}`}>
                 <ShoppingBag className="mr-2 h-5 w-5" />
@@ -175,14 +175,14 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
-                        <Badge className="absolute left-3 top-3 bg-gold text-white">
+                        <Badge className="absolute left-3 top-3 bg-gold text-foreground font-medium">
                           {rp.category}
                         </Badge>
                       </div>
                       <CardContent className="p-5">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="text-lg font-semibold text-foreground">{rp.name}</h3>
-                          <span className="shrink-0 text-lg font-bold text-primary">
+                          <span className="shrink-0 text-lg font-bold text-[#1A51BE]">
                             ${rp.price.toFixed(2)}
                           </span>
                         </div>

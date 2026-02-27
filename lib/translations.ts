@@ -5,6 +5,7 @@ export const translations = {
       products: "Products",
       store: "Store",
       request: "Request",
+      contact: "Contact",
       admin: "Admin",
     },
     hero: {
@@ -184,6 +185,7 @@ export const translations = {
       products: "Productos",
       store: "Tienda",
       request: "Solicitar",
+      contact: "Contactar",
       admin: "Admin",
     },
     hero: {

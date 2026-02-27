@@ -94,10 +94,10 @@ export default function StorePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                    <Badge className="absolute left-3 top-3 bg-gold text-white">
+                    <Badge className="absolute left-3 top-3 bg-gold text-foreground font-medium">
                       {product.category}
                     </Badge>
-                    <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground opacity-0 shadow-lg transition-all group-hover:opacity-100">
+                    <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#1A51BE] text-white opacity-0 shadow-lg transition-all group-hover:opacity-100">
                       <Eye className="h-5 w-5" />
                     </div>
                   </div>
@@ -105,7 +105,7 @@ export default function StorePage() {
                 <CardContent className="flex flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="text-lg font-semibold text-foreground">{product.name}</h3>
-                    <span className="shrink-0 text-xl font-bold text-primary">
+                    <span className="shrink-0 text-xl font-bold text-[#1A51BE]">
                       ${product.price.toFixed(2)}
                     </span>
                   </div>
@@ -113,7 +113,7 @@ export default function StorePage() {
                     {product.description}
                   </p>
                   <div className="mt-auto flex items-center gap-2 pt-2">
-                    <Button asChild size="sm" className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Button asChild size="sm" className="flex-1 bg-[#1A51BE] text-white hover:bg-[#1A51BE]/90">
                       <Link href={`/store/${product.id}`}>
                         <Eye className="mr-1.5 h-3.5 w-3.5" />
                         {t.storePage.viewDetails}
@@ -122,7 +122,7 @@ export default function StorePage() {
                     <Button
                       asChild
                       size="sm"
-                      className="flex-1 bg-gold text-white hover:bg-gold/90"
+                      className="flex-1 bg-gold text-foreground shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]"
                     >
                       <Link href="/request">
                         <ShoppingBag className="mr-1.5 h-3.5 w-3.5" />

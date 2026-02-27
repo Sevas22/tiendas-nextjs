@@ -46,19 +46,19 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white/10 px-1.5 md:h-14 md:w-14">
-            <img src="/venextrading-logo.png" alt="venextrading" className="h-full w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]" />
+          <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-white px-2.5 py-2 md:h-16 md:w-16">
+            <img src="/venextrading-logo.png" alt="venextrading" className="h-full w-auto object-contain" />
           </div>
           <div className="flex flex-col">
             <span
-              className={`text-xl font-bold leading-tight tracking-tight transition-colors md:text-2xl ${
+              className={`text-2xl font-bold leading-tight tracking-tight transition-colors md:text-3xl ${
                 scrolled || !isHome ? "text-foreground" : "text-white"
               }`}
             >
               venextrading
             </span>
             <span
-              className={`text-[10px] uppercase tracking-widest transition-colors md:text-xs ${
+              className={`text-xs uppercase tracking-widest transition-colors md:text-sm ${
                 scrolled || !isHome ? "text-gold" : "text-gold"
               }`}
             >
@@ -88,8 +88,11 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Right side: Language toggle + Mobile menu */}
+        {/* Right side: Contact + Language toggle + Mobile menu */}
         <div className="flex items-center gap-2">
+          <Button asChild size="sm" className="hidden rounded-md bg-[#00247D] px-4 text-white hover:bg-[#00247D]/90 sm:flex">
+            <Link href="/request">{t.nav.contact}</Link>
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -136,9 +139,16 @@ export function Navbar() {
                   </Link>
                 ))}
                 <Link
+                  href="/request"
+                  onClick={() => setOpen(false)}
+                  className="mt-4 rounded-md bg-[#00247D] px-4 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-[#00247D]/90"
+                >
+                  {t.nav.contact}
+                </Link>
+                <Link
                   href="/admin"
                   onClick={() => setOpen(false)}
-                  className="mt-4 rounded-md border border-border px-4 py-3 text-center text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
+                  className="rounded-md border border-border px-4 py-3 text-center text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
                 >
                   {t.nav.admin}
                 </Link>

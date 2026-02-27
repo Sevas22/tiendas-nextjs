@@ -66,7 +66,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
           {/* Details */}
           <div className="flex w-full flex-col lg:w-1/2">
-            <Badge className="mb-3 w-fit bg-primary text-primary-foreground">{product.category}</Badge>
+            <Badge className="mb-3 w-fit bg-gold text-foreground font-medium">{product.category}</Badge>
             <h1 className="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               {product.name}
             </h1>
@@ -105,14 +105,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <Button
                 asChild
                 size="lg"
-                className="flex-1 bg-gold text-white hover:bg-gold/90"
+                className="flex-1 bg-gold text-foreground shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]"
               >
                 <Link href={`/request?product=${encodeURIComponent(product.name)}`}>
-                  <Send className="mr-2 h-5 w-5" />
+                  <Send className="mr-2 h-5 w-5 text-foreground" />
                   {t.productsPage.requestProduct}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-gold text-gold hover:bg-gold hover:text-white">
+              <Button asChild size="lg" variant="outline" className="border-gold text-foreground shadow-[0_1px_6px_rgba(204,163,0,0.2)] hover:bg-gold hover:text-foreground hover:shadow-[0_2px_10px_rgba(204,163,0,0.3)]">
                 <a href={product.techSheetUrl || "/techsheet.pdf"} download>
                   <FileDown className="mr-2 h-5 w-5" />
                   {t.productsPage.downloadSheet}
@@ -143,7 +143,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
-                        <Badge className="absolute left-3 top-3 bg-primary text-primary-foreground">
+                        <Badge className="absolute left-3 top-3 bg-gold text-foreground font-medium">
                           {rp.category}
                         </Badge>
                       </div>

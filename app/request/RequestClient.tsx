@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { toast } from "sonner"
 import {
   Send,
   User,
@@ -43,6 +44,7 @@ export default function RequestClient() {
     quantity: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const product = searchParams.get("product")
@@ -61,9 +63,50 @@ export default function RequestClient() {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(form)
+    setIsSubmitting(true)
+    try {
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+      if (!accessKey) {
+        toast.error("Configura NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY en .env.local")
+        return
+      }
+      const emailBody = [
+        `Nombre: ${form.fullName}`,
+        `Email: ${form.email}`,
+        `Teléfono: ${form.phone || "N/A"}`,
+        `Empresa: ${form.company || "N/A"}`,
+        `País: ${form.country || "N/A"}`,
+        `Producto de interés: ${form.productInterest || "N/A"}`,
+        `Cantidad estimada: ${form.quantity || "N/A"}`,
+        ``,
+        `Mensaje / Requisitos:`,
+        form.message,
+      ].join("\n")
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `[venextrading] Nueva solicitud de ${form.fullName}`,
+          from_name: "venextrading Solicitud",
+          replyto: form.email,
+          message: emailBody,
+        }),
+      })
+      const data = (await res.json()) as { success?: boolean; message?: string }
+      if (res.ok && data.success) {
+        toast.success(t.requestPage.success)
+        setForm({ fullName: "", email: "", phone: "", company: "", country: "", productInterest: "", quantity: "", message: "" })
+      } else {
+        toast.error(data.message || t.requestPage.error)
+      }
+    } catch {
+      toast.error(t.requestPage.error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -219,9 +262,9 @@ export default function RequestClient() {
                 </div>
                 </div>
 
-                <Button type="submit" size="lg" className="w-full gap-2">
+                <Button type="submit" size="lg" className="w-full gap-2" disabled={isSubmitting}>
                   <Send className="h-4 w-4" />
-                  {t.requestPage.submit}
+                  {isSubmitting ? t.requestPage.sending : t.requestPage.submit}
                 </Button>
               </form>
             </CardContent>

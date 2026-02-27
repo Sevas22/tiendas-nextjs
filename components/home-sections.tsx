@@ -83,13 +83,13 @@ export function AboutSection() {
     <section className="bg-background py-12 sm:py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-10 sm:gap-12 lg:flex-row lg:gap-16">
-          {/* Image */}
+          {/* Logo - occupies image space */}
           <div className="relative w-full lg:w-1/2">
-            <div className="overflow-hidden rounded-2xl">
+            <div className="flex h-[400px] items-center justify-center overflow-hidden rounded-2xl bg-secondary/50">
               <img
-                src="/images/about.jpg"
-                alt="Sobre venextrading"
-                className="h-[400px] w-full object-cover"
+                src="/venextrading-logo.png"
+                alt="venextrading"
+                className="h-48 w-auto max-w-[80%] object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.15)] md:h-56"
               />
             </div>
             {/* Decorative overlay */}
@@ -98,13 +98,6 @@ export function AboutSection() {
 
           {/* Text */}
           <div className="w-full lg:w-1/2">
-            <div className="mb-4 flex w-fit rounded-lg bg-primary/5 px-4 py-2">
-              <img
-                src="/venextrading-logo.png"
-                alt="venextrading"
-                className="h-12 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
-              />
-            </div>
             <div className="mb-4 h-1 w-12 bg-gold" />
             <h2 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               {t.about.title}
@@ -199,13 +192,6 @@ export function WhyChooseSection() {
     <section className="bg-background py-12 sm:py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <div className="mx-auto mb-4 flex w-fit justify-center rounded-lg bg-primary/5 px-4 py-2">
-            <img
-              src="/venextrading-logo.png"
-              alt="venextrading"
-              className="h-10 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
-            />
-          </div>
           <div className="mx-auto mb-4 h-1 w-12 bg-gold" />
           <h2 className="mb-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {t.whyChoose.title}
@@ -308,7 +294,7 @@ export function CTABanner() {
           <Button
             asChild
             size="lg"
-            className="bg-gold text-white hover:bg-gold/90"
+            className="bg-gold text-white shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]"
           >
             <Link href="/request">{t.cta.button}</Link>
           </Button>

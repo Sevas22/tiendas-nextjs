@@ -93,7 +93,7 @@ export default function ProductsPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                  <Badge className="absolute left-3 top-3 bg-primary text-primary-foreground">
+                  <Badge className="absolute left-3 top-3 bg-gold text-foreground font-medium">
                     {product.category}
                   </Badge>
                 </div>
@@ -104,16 +104,16 @@ export default function ProductsPage() {
                   </p>
                   <div className="mt-auto space-y-2 pt-2">
                     <div className="flex gap-2">
-                      <Button asChild size="sm" className="flex-1 bg-gold text-white hover:bg-gold/90">
-                        <Link href={`/request?product=${encodeURIComponent(product.name)}`}>
-                          <Send className="mr-1.5 h-3.5 w-3.5" />
-                          {t.productsPage.requestProduct}
-                        </Link>
-                      </Button>
-                      <Button asChild size="sm" variant="outline" className="flex-1">
+                      <Button asChild size="sm" className="flex-1 bg-[#1A51BE] text-white hover:bg-[#1A51BE]/90">
                         <Link href={`/products/${product.id}`}>
                           <Eye className="mr-1.5 h-3.5 w-3.5" />
                           {t.productsPage.viewDetails}
+                        </Link>
+                      </Button>
+                      <Button asChild size="sm" className="flex-1 bg-gold text-foreground shadow-[0_2px_10px_rgba(255,215,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(255,215,0,0.35)]">
+                        <Link href={`/request?product=${encodeURIComponent(product.name)}`}>
+                          <Send className="mr-1.5 h-3.5 w-3.5 text-foreground" />
+                          {t.productsPage.requestProduct}
                         </Link>
                       </Button>
                     </div>
@@ -121,7 +121,7 @@ export default function ProductsPage() {
                       asChild
                       size="sm"
                       variant="outline"
-                      className="w-full border-gold text-gold hover:bg-gold hover:text-white"
+                      className="w-full border-gold text-foreground shadow-[0_1px_6px_rgba(204,163,0,0.2)] hover:bg-gold hover:text-foreground hover:shadow-[0_2px_10px_rgba(204,163,0,0.3)]"
                     >
                       <a href={product.techSheetUrl || "/techsheet.pdf"} download>
                         <FileDown className="mr-1.5 h-3.5 w-3.5" />
