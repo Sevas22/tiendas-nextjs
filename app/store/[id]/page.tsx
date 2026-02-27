@@ -39,8 +39,8 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
   }
 
   return (
-    <div className="bg-background pt-24 pb-16">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <div className="bg-background pt-20 pb-10 sm:pt-24 sm:pb-12 md:pb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Back button */}
         <Button asChild variant="ghost" className="mb-6 text-muted-foreground hover:text-foreground">
           <Link href="/store">
@@ -106,7 +106,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
                   <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     {t.storePage.price}
                   </span>
-                  <p className="font-medium text-foreground">${product.price.toFixed(2)} per unit</p>
+                  <p className="font-medium text-foreground">${product.price.toFixed(2)} {t.storePage.perUnit}</p>
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
             {/* Quantity selector */}
             <div className="mb-6">
               <label className="mb-2 block text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                Quantity
+                {t.storePage.quantity}
               </label>
               <div className="flex items-center gap-3">
                 <Button
@@ -135,7 +135,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
                   <Plus className="h-4 w-4" />
                 </Button>
                 <span className="ml-4 text-lg font-semibold text-primary">
-                  Total: ${(product.price * quantity).toFixed(2)}
+                  {t.storePage.total}: ${(product.price * quantity).toFixed(2)}
                 </span>
               </div>
             </div>

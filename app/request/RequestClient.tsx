@@ -27,8 +27,10 @@ import {
 } from "@/components/ui/card"
 
 import { HeroBanner } from "@/components/hero-banner"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function RequestClient() {
+  const { t } = useLanguage()
   const searchParams = useSearchParams()
 
   const [form, setForm] = useState({
@@ -67,17 +69,17 @@ export default function RequestClient() {
   return (
     <>
       <HeroBanner
-        title="Request a Product"
-        subtitle="Fill out the form below and our team will get back to you within 24 hours"
+        title={t.requestPage.title}
+        subtitle={t.requestPage.subtitle}
       />
 
-      <section className="py-16">
-        <div className="mx-auto max-w-4xl px-4">
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <Card className="shadow-xl">
             <CardHeader>
-              <CardTitle>Request a Product</CardTitle>
+              <CardTitle>{t.requestPage.title}</CardTitle>
               <CardDescription>
-                Please provide as much detail as possible
+                {t.requestPage.cardDescription}
               </CardDescription>
             </CardHeader>
 
@@ -89,12 +91,12 @@ export default function RequestClient() {
 
                   {/* Full Name */}
                   <div>
-                    <Label>Full Name *</Label>
+                    <Label>{t.requestPage.fullName} *</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         className="pl-10"
-                        placeholder="John Doe"
+                        placeholder={t.requestPage.fullNamePlaceholder}
                         value={form.fullName}
                         onChange={(e) =>
                           handleChange("fullName", e.target.value)
@@ -105,13 +107,13 @@ export default function RequestClient() {
 
                   {/* Email */}
                   <div>
-                    <Label>Email *</Label>
+                    <Label>{t.requestPage.email} *</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         type="email"
                         className="pl-10"
-                        placeholder="john@email.com"
+                        placeholder={t.requestPage.emailPlaceholder}
                         value={form.email}
                         onChange={(e) =>
                           handleChange("email", e.target.value)
@@ -122,12 +124,12 @@ export default function RequestClient() {
 
                   {/* Phone */}
                   <div>
-                    <Label>Phone</Label>
+                    <Label>{t.requestPage.phone}</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         className="pl-10"
-                        placeholder="+1 555 123 456"
+                        placeholder={t.requestPage.phonePlaceholder}
                         value={form.phone}
                         onChange={(e) =>
                           handleChange("phone", e.target.value)
@@ -138,12 +140,12 @@ export default function RequestClient() {
 
                   {/* Company */}
                   <div>
-                    <Label>Company</Label>
+                    <Label>{t.requestPage.company}</Label>
                     <div className="relative">
                       <Building2 className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         className="pl-10"
-                        placeholder="ACME Corp"
+                        placeholder={t.requestPage.companyPlaceholder}
                         value={form.company}
                         onChange={(e) =>
                           handleChange("company", e.target.value)
@@ -154,12 +156,12 @@ export default function RequestClient() {
 
                   {/* Country */}
                   <div>
-                    <Label>Country</Label>
+                    <Label>{t.requestPage.country}</Label>
                     <div className="relative">
                       <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         className="pl-10"
-                        placeholder="United States"
+                        placeholder={t.requestPage.countryPlaceholder}
                         value={form.country}
                         onChange={(e) =>
                           handleChange("country", e.target.value)
@@ -170,12 +172,12 @@ export default function RequestClient() {
 
                   {/* Product */}
                   <div>
-                    <Label>Product of Interest</Label>
+                    <Label>{t.requestPage.productInterest}</Label>
                     <div className="relative">
                       <Package className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         className="pl-10"
-                        placeholder="Rice, electronics, machinery..."
+                        placeholder={t.requestPage.productPlaceholder}
                         value={form.productInterest}
                         onChange={(e) =>
                           handleChange("productInterest", e.target.value)
@@ -187,12 +189,12 @@ export default function RequestClient() {
 
                 {/* FULL WIDTH */}
                 <div>
-                  <Label>Estimated Quantity</Label>
+                  <Label>{t.requestPage.quantity}</Label>
                   <div className="relative">
                     <Layers className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       className="pl-10"
-                      placeholder="500 kg, 10 containers..."
+                      placeholder={t.requestPage.quantityPlaceholder}
                       value={form.quantity}
                       onChange={(e) =>
                         handleChange("quantity", e.target.value)
@@ -202,13 +204,13 @@ export default function RequestClient() {
                 </div>
 
                 <div>
-                  <Label>Message / Special Requirements *</Label>
+                  <Label>{t.requestPage.message} *</Label>
                   <div className="relative">
                     <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Textarea
                       rows={5}
                       className="pl-10"
-                      placeholder="Tell us about your requirements, delivery schedule, etc."
+                      placeholder={t.requestPage.messagePlaceholder}
                       value={form.message}
                       onChange={(e) =>
                         handleChange("message", e.target.value)
@@ -219,7 +221,7 @@ export default function RequestClient() {
 
                 <Button type="submit" size="lg" className="w-full gap-2">
                   <Send className="h-4 w-4" />
-                  Send Request
+                  {t.requestPage.submit}
                 </Button>
               </form>
             </CardContent>

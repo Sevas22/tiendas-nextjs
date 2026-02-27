@@ -35,9 +35,16 @@ export function ValuesSection() {
   ]
 
   return (
-    <section className="bg-secondary py-20">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <section className="bg-secondary py-12 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
+          <div className="mx-auto mb-4 flex w-fit justify-center rounded-lg bg-primary/5 px-4 py-2">
+            <img
+              src="/venextrading-logo.png"
+              alt="venextrading"
+              className="h-10 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+            />
+          </div>
           <div className="mx-auto mb-4 h-1 w-12 bg-gold" />
           <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {t.values.title}
@@ -73,15 +80,15 @@ export function AboutSection() {
   ]
 
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
+    <section className="bg-background py-12 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-10 sm:gap-12 lg:flex-row lg:gap-16">
           {/* Image */}
           <div className="relative w-full lg:w-1/2">
             <div className="overflow-hidden rounded-2xl">
               <img
                 src="/images/about.jpg"
-                alt="About CHINA Trading"
+                alt="Sobre venextrading"
                 className="h-[400px] w-full object-cover"
               />
             </div>
@@ -91,6 +98,13 @@ export function AboutSection() {
 
           {/* Text */}
           <div className="w-full lg:w-1/2">
+            <div className="mb-4 flex w-fit rounded-lg bg-primary/5 px-4 py-2">
+              <img
+                src="/venextrading-logo.png"
+                alt="venextrading"
+                className="h-12 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+              />
+            </div>
             <div className="mb-4 h-1 w-12 bg-gold" />
             <h2 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               {t.about.title}
@@ -135,9 +149,16 @@ export function CategoriesSection() {
   ]
 
   return (
-    <section className="bg-secondary py-20">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <section className="bg-secondary py-12 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
+          <div className="mx-auto mb-4 flex w-fit justify-center rounded-lg bg-primary/5 px-4 py-2">
+            <img
+              src="/venextrading-logo.png"
+              alt="venextrading"
+              className="h-10 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+            />
+          </div>
           <div className="mx-auto mb-4 h-1 w-12 bg-gold" />
           <h2 className="mb-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {t.categories.title}
@@ -175,9 +196,16 @@ export function WhyChooseSection() {
   ]
 
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <section className="bg-background py-12 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
+          <div className="mx-auto mb-4 flex w-fit justify-center rounded-lg bg-primary/5 px-4 py-2">
+            <img
+              src="/venextrading-logo.png"
+              alt="venextrading"
+              className="h-10 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+            />
+          </div>
           <div className="mx-auto mb-4 h-1 w-12 bg-gold" />
           <h2 className="mb-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {t.whyChoose.title}
@@ -210,28 +238,31 @@ export function CountriesSection() {
   const { t } = useLanguage()
 
   const countries = [
+    { name: "Venezuela", flag: "🇻🇪" },
+    { name: "Colombia", flag: "🇨🇴" },
     { name: "United States", flag: "🇺🇸" },
     { name: "Canada", flag: "🇨🇦" },
-    { name: "United Kingdom", flag: "🇬🇧" },
-    { name: "Germany", flag: "🇩🇪" },
-    { name: "France", flag: "🇫🇷" },
-    { name: "Japan", flag: "🇯🇵" },
-    { name: "Australia", flag: "🇦🇺" },
+    { name: "Spain", flag: "🇪🇸" },
+    { name: "Panama", flag: "🇵🇦" },
+    { name: "Peru", flag: "🇵🇪" },
+    { name: "Chile", flag: "🇨🇱" },
     { name: "Brazil", flag: "🇧🇷" },
     { name: "Mexico", flag: "🇲🇽" },
-    { name: "South Korea", flag: "🇰🇷" },
-    { name: "Singapore", flag: "🇸🇬" },
-    { name: "UAE", flag: "🇦🇪" },
-    { name: "India", flag: "🇮🇳" },
-    { name: "South Africa", flag: "🇿🇦" },
-    { name: "Colombia", flag: "🇨🇴" },
-    { name: "Chile", flag: "🇨🇱" },
+    { name: "Ecuador", flag: "🇪🇨" },
+    { name: "Argentina", flag: "🇦🇷" },
   ]
 
   return (
-    <section className="bg-secondary py-20">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <section className="bg-secondary py-12 sm:py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
+          <div className="mx-auto mb-4 flex w-fit justify-center rounded-lg bg-primary/5 px-4 py-2">
+            <img
+              src="/venextrading-logo.png"
+              alt="venextrading"
+              className="h-10 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+            />
+          </div>
           <div className="mx-auto mb-4 h-1 w-12 bg-gold" />
           <h2 className="mb-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {t.countries.title}
@@ -259,7 +290,7 @@ export function CTABanner() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative overflow-hidden bg-primary py-20">
+    <section className="relative overflow-hidden bg-primary py-12 sm:py-16 md:py-20">
       {/* Decorative pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full border-[40px] border-white" />
@@ -283,7 +314,7 @@ export function CTABanner() {
           </Button>
           <p className="text-sm text-primary-foreground/70">
             {t.cta.call}{" "}
-            <span className="font-semibold text-primary-foreground">+86 123 456 7890</span>
+            <span className="font-semibold text-primary-foreground">+58 212 123 4567</span>
           </p>
         </div>
       </div>

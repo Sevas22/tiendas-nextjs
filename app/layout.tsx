@@ -11,11 +11,11 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CHINA Trading - International Food Export",
+  title: "venextrading - Mercado Venezolano",
   description:
-    "Premium food products exported worldwide. Your trusted partner in international food trade, delivering quality products to over 30 countries.",
+    "Tu marketplace de confianza. venextrading conecta vendedores y compradores en Venezuela con productos de calidad.",
   generator: "v0.app",
-  keywords: ["food export", "international trade", "CHINA Trading", "wholesale food", "global food supplier"],
+  keywords: ["venextrading", "marketplace", "Venezuela", "comercio", "tienda", "productos"],
   icons: {
     icon: [
       {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0D6B3F",
+  themeColor: "#00247D",
 }
 
 export default function RootLayout({

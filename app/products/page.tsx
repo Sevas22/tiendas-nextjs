@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Search, FileDown, Eye, Filter } from "lucide-react"
+import { Search, FileDown, Eye, Filter, Send } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -40,14 +40,14 @@ export default function ProductsPage() {
     <>
       <HeroBanner title={t.productsPage.title} subtitle={t.productsPage.subtitle} />
 
-      <section className="bg-background py-16">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <section className="bg-background py-10 sm:py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Filters bar */}
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="relative w-full md:max-w-sm">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder={t.storePage.search}
+                placeholder={t.productsPage.search}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-10"
@@ -102,20 +102,28 @@ export default function ProductsPage() {
                   <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
                     {product.description}
                   </p>
-                  <div className="mt-auto flex items-center gap-2 pt-2">
-                    <Button asChild size="sm" className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90">
-                      <Link href={`/products/${product.id}`}>
-                        <Eye className="mr-1.5 h-3.5 w-3.5" />
-                        {t.productsPage.viewDetails}
-                      </Link>
-                    </Button>
+                  <div className="mt-auto space-y-2 pt-2">
+                    <div className="flex gap-2">
+                      <Button asChild size="sm" className="flex-1 bg-gold text-white hover:bg-gold/90">
+                        <Link href={`/request?product=${encodeURIComponent(product.name)}`}>
+                          <Send className="mr-1.5 h-3.5 w-3.5" />
+                          {t.productsPage.requestProduct}
+                        </Link>
+                      </Button>
+                      <Button asChild size="sm" variant="outline" className="flex-1">
+                        <Link href={`/products/${product.id}`}>
+                          <Eye className="mr-1.5 h-3.5 w-3.5" />
+                          {t.productsPage.viewDetails}
+                        </Link>
+                      </Button>
+                    </div>
                     <Button
                       asChild
                       size="sm"
                       variant="outline"
-                      className="flex-1 border-gold text-gold hover:bg-gold hover:text-white"
+                      className="w-full border-gold text-gold hover:bg-gold hover:text-white"
                     >
-                      <a href="/techsheet.pdf" download="CHINA-Trading-TechSheet.pdf">
+                      <a href={product.techSheetUrl || "/techsheet.pdf"} download>
                         <FileDown className="mr-1.5 h-3.5 w-3.5" />
                         {t.productsPage.downloadSheet}
                       </a>
@@ -127,8 +135,8 @@ export default function ProductsPage() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="py-20 text-center">
-              <p className="text-lg text-muted-foreground">No products found matching your criteria.</p>
+            <div className="py-16 text-center sm:py-20">
+              <p className="text-lg text-muted-foreground">{t.productsPage.noProducts}</p>
             </div>
           )}
         </div>

@@ -40,8 +40,8 @@ export default function StorePage() {
     <>
       <HeroBanner title={t.storePage.title} subtitle={t.storePage.subtitle} />
 
-      <section className="bg-background py-16">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <section className="bg-background py-10 sm:py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Filters bar */}
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="relative w-full md:max-w-sm">
@@ -136,8 +136,8 @@ export default function StorePage() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="py-20 text-center">
-              <p className="text-lg text-muted-foreground">No products found matching your criteria.</p>
+            <div className="py-16 text-center sm:py-20">
+              <p className="text-lg text-muted-foreground">{t.storePage.noProducts}</p>
             </div>
           )}
         </div>

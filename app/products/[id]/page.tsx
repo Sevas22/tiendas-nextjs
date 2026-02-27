@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, FileDown } from "lucide-react"
+import { ArrowLeft, FileDown, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -38,8 +38,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="bg-background pt-24 pb-16">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <div className="bg-background pt-20 pb-10 sm:pt-24 sm:pb-12 md:pb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Back button */}
         <Button asChild variant="ghost" className="mb-6 text-muted-foreground hover:text-foreground">
           <Link href="/products">
@@ -100,17 +100,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             )}
 
-            {/* Download button */}
-            <Button
-              asChild
-              size="lg"
-              className="mt-auto bg-gold text-white hover:bg-gold/90"
-            >
-              <a href="/techsheet.pdf" download="CHINA-Trading-TechSheet.pdf">
-                <FileDown className="mr-2 h-5 w-5" />
-                {t.productsPage.downloadSheet}
-              </a>
-            </Button>
+            {/* CTAs */}
+            <div className="mt-auto flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="flex-1 bg-gold text-white hover:bg-gold/90"
+              >
+                <Link href={`/request?product=${encodeURIComponent(product.name)}`}>
+                  <Send className="mr-2 h-5 w-5" />
+                  {t.productsPage.requestProduct}
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-gold text-gold hover:bg-gold hover:text-white">
+                <a href={product.techSheetUrl || "/techsheet.pdf"} download>
+                  <FileDown className="mr-2 h-5 w-5" />
+                  {t.productsPage.downloadSheet}
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
 

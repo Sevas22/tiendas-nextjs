@@ -7,6 +7,7 @@ export interface Product {
   image: string
   type: "store" | "catalog"
   specifications?: Record<string, string>
+  techSheetUrl?: string
   createdAt: string
 }
 

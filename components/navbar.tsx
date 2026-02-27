@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, Globe, Ship, X } from "lucide-react"
+import { Menu, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { useLanguage } from "@/contexts/language-context"
@@ -43,26 +43,26 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-            <Ship className="h-6 w-6 text-primary-foreground" />
+        <Link href="/" className="flex items-center gap-3">
+          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white/10 px-1.5 md:h-14 md:w-14">
+            <img src="/venextrading-logo.png" alt="venextrading" className="h-full w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]" />
           </div>
           <div className="flex flex-col">
             <span
-              className={`text-lg font-bold leading-tight tracking-tight transition-colors ${
+              className={`text-xl font-bold leading-tight tracking-tight transition-colors md:text-2xl ${
                 scrolled || !isHome ? "text-foreground" : "text-white"
               }`}
             >
-              CHINA Trading
+              venextrading
             </span>
             <span
-              className={`text-[10px] uppercase tracking-widest transition-colors ${
+              className={`text-[10px] uppercase tracking-widest transition-colors md:text-xs ${
                 scrolled || !isHome ? "text-gold" : "text-gold"
               }`}
             >
-              International Export
+              Mercado Venezolano
             </span>
           </div>
         </Link>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/contexts/language-context"
 
 const slides = [
-  { image: "/images/hero-1.jpg" },
+  { image: "/images/hero-1.png" },
   { image: "/images/hero-2.jpg" },
   { image: "/images/hero-3.jpg" },
 ]
@@ -34,7 +34,7 @@ export function HeroCarousel() {
 
   return (
     <section className="relative h-[85vh] min-h-[600px] w-full overflow-hidden">
-      {/* Slides */}
+      {/* Slides - each with same difuminado overlay */}
       {slides.map((slide, i) => (
         <div
           key={i}
@@ -47,29 +47,36 @@ export function HeroCarousel() {
             alt={`Hero banner ${i + 1}`}
             className="h-full w-full object-cover"
           />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/60 to-navy/30" />
+          {/* Same difuminado on every slide */}
+          <div
+            className="absolute inset-y-0 left-0 w-[70%] bg-[linear-gradient(to_right,rgba(0,26,92,0.9)_0%,rgba(0,26,92,0.85)_45%,rgba(0,26,92,0.5)_70%,transparent_100%)]"
+            aria-hidden
+          />
         </div>
       ))}
 
-      {/* Content */}
+      {/* Content - constrained to stay within dark overlay zone */}
       <div className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-7xl px-4 lg:px-8">
-          <div className="max-w-2xl">
+        <div className="mx-auto w-full max-w-7xl px-6 lg:px-12">
+          <div className="max-w-xl">
             {/* Gold accent line */}
             <div className="mb-6 h-1 w-20 bg-gold" />
 
             <h1
               key={`title-${current}`}
-              className="animate-in fade-in slide-in-from-bottom-4 mb-6 text-balance text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl"
+              className="animate-in fade-in slide-in-from-bottom-4 mb-6 text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] md:text-5xl lg:text-6xl"
               style={{ animationDuration: "700ms" }}
             >
-              {titles[current]}
+              {titles[current].split("\n").map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
             </h1>
 
             <p
               key={`sub-${current}`}
-              className="animate-in fade-in slide-in-from-bottom-4 mb-8 max-w-lg text-pretty text-lg leading-relaxed text-white/80"
+              className="animate-in fade-in slide-in-from-bottom-4 mb-8 max-w-md text-pretty text-lg leading-relaxed text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
               style={{ animationDuration: "700ms", animationDelay: "150ms", animationFillMode: "backwards" }}
             >
               {subs[current]}

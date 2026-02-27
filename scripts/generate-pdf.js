@@ -20,19 +20,19 @@ stream
 BT
 /F1 28 Tf
 50 720 Td
-(CHINA Trading) Tj
+(venextrading) Tj
 /F1 18 Tf
 0 -40 Td
 (Product Technical Sheet) Tj
 /F1 12 Tf
 0 -50 Td
-(Company: CHINA Trading International Export) Tj
+(Company: venextrading - Mercado Venezolano) Tj
 0 -20 Td
-(Website: www.chinatrading.com) Tj
+(Website: www.venextrading.com) Tj
 0 -20 Td
-(Email: info@chinatrading.com) Tj
+(Email: info@venextrading.com) Tj
 0 -20 Td
-(Phone: +86 123 456 7890) Tj
+(Phone: +58 212 123 4567) Tj
 0 -40 Td
 (This is a general technical data sheet for our products.) Tj
 0 -20 Td
@@ -71,6 +71,6 @@ ${xrefOffset}
 
 const pdf = header + body + xref + trailer;
 
-import { writeFileSync } from 'fs';
-writeFileSync('public/techsheet.pdf', pdf);
+const fs = require('fs');
+fs.writeFileSync('public/techsheet.pdf', pdf);
 console.log('PDF generated at public/techsheet.pdf');
