@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useLanguage } from "@/contexts/language-context"
 import { getProductById, getProducts } from "@/lib/products-store"
+import { isSupabaseConfigured } from "@/lib/supabase/client"
 import type { Product } from "@/lib/types"
 
 export default function StoreProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -18,22 +19,62 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
   const [product, setProduct] = useState<Product | null>(null)
   const [related, setRelated] = useState<Product[]>([])
   const [quantity, setQuantity] = useState(1)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const found = getProductById(id)
-    if (found) {
-      setProduct(found)
-      const allStore = getProducts("store")
-      setRelated(
-        allStore.filter((p) => p.id !== found.id).slice(0, 3)
-      )
+    let cancelled = false
+
+    async function load() {
+      setLoading(true)
+      const found = getProductById(id)
+      if (found && found.type === "store") {
+        if (!cancelled) {
+          setProduct(found)
+          const allStore = getProducts("store")
+          setRelated(allStore.filter((p) => p.id !== found.id).slice(0, 3))
+        }
+        setLoading(false)
+        return
+      }
+
+      if (isSupabaseConfigured()) {
+        try {
+          const r = await fetch(`/api/products/${id}`)
+          if (r.ok) {
+            const p: Product = await r.json()
+            if (!cancelled && p.type === "store") {
+              setProduct(p)
+              const r2 = await fetch("/api/products?type=store")
+              const list: Product[] = r2.ok ? await r2.json() : []
+              const arr = Array.isArray(list) ? list : []
+              setRelated(arr.filter((x) => x.id !== p.id).slice(0, 3))
+            }
+          }
+        } catch {
+          /* keep product null */
+        }
+      }
+      if (!cancelled) setLoading(false)
+    }
+
+    load()
+    return () => {
+      cancelled = true
     }
   }, [id])
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center pt-20">
+        <p className="text-lg text-muted-foreground">{t.storePage.loadingProduct}</p>
+      </div>
+    )
+  }
 
   if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center pt-20">
-        <p className="text-lg text-muted-foreground">Product not found.</p>
+        <p className="text-lg text-muted-foreground">{t.storePage.productNotFound}</p>
       </div>
     )
   }

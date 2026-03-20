@@ -223,19 +223,11 @@ export function WhyChooseSection() {
 export function CountriesSection() {
   const { t } = useLanguage()
 
-  const countries = [
-    { name: "Venezuela", flag: "🇻🇪" },
-    { name: "Colombia", flag: "🇨🇴" },
-    { name: "United States", flag: "🇺🇸" },
-    { name: "Canada", flag: "🇨🇦" },
-    { name: "Spain", flag: "🇪🇸" },
-    { name: "Panama", flag: "🇵🇦" },
-    { name: "Peru", flag: "🇵🇪" },
-    { name: "Chile", flag: "🇨🇱" },
-    { name: "Brazil", flag: "🇧🇷" },
-    { name: "Mexico", flag: "🇲🇽" },
-    { name: "Ecuador", flag: "🇪🇨" },
-    { name: "Argentina", flag: "🇦🇷" },
+  /** Códigos ISO 3166-1 alpha-2 para flagcdn.com — Medio Oriente: varias banderas en una tarjeta */
+  const regions: { name: string; flags: string[] }[] = [
+    { name: t.countries.regionUsa, flags: ["us"] },
+    { name: t.countries.regionMe, flags: ["ae", "sa", "kw"] },
+    { name: t.countries.regionCn, flags: ["cn"] },
   ]
 
   return (
@@ -255,14 +247,47 @@ export function CountriesSection() {
           </h2>
           <p className="text-muted-foreground">{t.countries.subtitle}</p>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-          {countries.map((c, i) => (
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-6 lg:gap-8">
+          {regions.map((c, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 rounded-lg bg-card p-4 shadow-sm transition-shadow hover:shadow-md"
+              className="flex h-full min-h-[200px] flex-col rounded-xl border border-border/40 bg-card p-5 shadow-sm transition-shadow hover:shadow-md sm:min-h-[220px] sm:p-6"
             >
-              <span className="text-3xl" role="img" aria-label={c.name}>{c.flag}</span>
-              <span className="text-center text-xs font-medium text-foreground">{c.name}</span>
+              <div
+                className="flex min-h-[120px] flex-1 flex-col items-center justify-center"
+                role="img"
+                aria-label={c.name}
+              >
+                {c.flags.length === 1 ? (
+                  <img
+                    src={`https://flagcdn.com/w160/${c.flags[0]}.png`}
+                    alt=""
+                    width={160}
+                    height={107}
+                    className="h-14 w-[5.5rem] rounded-md border border-border/50 object-cover shadow-md sm:h-16 sm:w-24"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="flex w-full max-w-[240px] flex-row flex-nowrap items-center justify-center gap-2 sm:gap-2.5">
+                    {c.flags.map((code) => (
+                      <img
+                        key={code}
+                        src={`https://flagcdn.com/w80/${code}.png`}
+                        alt=""
+                        width={80}
+                        height={53}
+                        className="h-10 w-14 shrink-0 rounded border border-border/50 object-cover shadow-sm sm:h-11 sm:w-[4.5rem]"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <span className="mt-3 text-center text-sm font-semibold leading-snug text-foreground sm:mt-4">
+                {c.name}
+              </span>
             </div>
           ))}
         </div>

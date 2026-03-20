@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { HeroBanner } from "@/components/hero-banner"
 import { useLanguage } from "@/contexts/language-context"
 import { getProducts, getCategories } from "@/lib/products-store"
+import { isSupabaseConfigured } from "@/lib/supabase/client"
 import type { Product } from "@/lib/types"
 
 export default function ProductsPage() {
@@ -21,8 +22,27 @@ export default function ProductsPage() {
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    setProducts(getProducts("catalog"))
-    setCategories(getCategories("catalog"))
+    if (isSupabaseConfigured()) {
+      fetch("/api/products?type=catalog")
+        .then((r) => (r.ok ? r.json() : []))
+        .then((data: Product[]) => {
+          const list = Array.isArray(data) ? data : []
+          if (list.length === 0) {
+            setProducts(getProducts("catalog"))
+            setCategories(getCategories("catalog"))
+          } else {
+            setProducts(list)
+            setCategories([...new Set(list.map((p) => p.category).filter(Boolean))].sort())
+          }
+        })
+        .catch(() => {
+          setProducts(getProducts("catalog"))
+          setCategories(getCategories("catalog"))
+        })
+    } else {
+      setProducts(getProducts("catalog"))
+      setCategories(getCategories("catalog"))
+    }
   }, [])
 
   const filtered = useMemo(() => {

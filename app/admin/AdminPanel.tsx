@@ -13,47 +13,89 @@ import {
 import type { Product } from "@/lib/types"
 import { ProductForm } from "./ProductForm"
 import { useLanguage } from "@/contexts/language-context"
+import { createClient } from "@/lib/supabase/client"
+import { productToRow, rowToProduct } from "@/lib/supabase/products"
 
 type TabType = "catalog" | "store"
 
 interface AdminPanelProps {
   onLogout: () => void
+  useSupabase?: boolean
 }
 
-export function AdminPanel({ onLogout }: AdminPanelProps) {
+export function AdminPanel({ onLogout, useSupabase = false }: AdminPanelProps) {
   const { t } = useLanguage()
   const [tab, setTab] = useState<TabType>("catalog")
   const [products, setProducts] = useState<Product[]>([])
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [showForm, setShowForm] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const loadProducts = () => {
-    setProducts(getProducts(tab))
+  const loadProducts = async () => {
+    if (useSupabase) {
+      setLoading(true)
+      try {
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          setProducts([])
+          return
+        }
+        const { data: rows } = await supabase
+          .from("products")
+          .select("*")
+          .eq("type", tab)
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+        setProducts((rows || []).map((row) => rowToProduct(row as Parameters<typeof rowToProduct>[0])))
+      } catch {
+        setProducts([])
+      } finally {
+        setLoading(false)
+      }
+    } else {
+      setProducts(getProducts(tab))
+    }
   }
 
   useEffect(() => {
     loadProducts()
-  }, [tab])
+  }, [tab, useSupabase])
 
-  const handleSave = (data: Omit<Product, "id" | "createdAt">) => {
-    if (editingProduct) {
-      updateProduct(editingProduct.id, data)
+  const handleSave = async (data: Omit<Product, "id" | "createdAt">) => {
+    if (useSupabase) {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const row = { ...productToRow(data), user_id: user.id }
+      if (editingProduct) {
+        await supabase.from("products").update(row).eq("id", editingProduct.id)
+      } else {
+        await supabase.from("products").insert(row)
+      }
     } else {
-      addProduct(data)
+      if (editingProduct) {
+        updateProduct(editingProduct.id, data)
+      } else {
+        addProduct(data)
+      }
     }
     setEditingProduct(null)
     setShowForm(false)
     loadProducts()
   }
 
-  const handleDelete = (product: Product) => {
-    if (confirm(t.admin.confirmDelete)) {
+  const handleDelete = async (product: Product) => {
+    if (!confirm(t.admin.confirmDelete)) return
+    if (useSupabase) {
+      await createClient().from("products").delete().eq("id", product.id)
+    } else {
       deleteProduct(product.id)
-      loadProducts()
-      if (editingProduct?.id === product.id) {
-        setEditingProduct(null)
-        setShowForm(false)
-      }
+    }
+    loadProducts()
+    if (editingProduct?.id === product.id) {
+      setEditingProduct(null)
+      setShowForm(false)
     }
   }
 
@@ -76,7 +118,12 @@ export function AdminPanel({ onLogout }: AdminPanelProps) {
     <div className="min-h-screen bg-background pb-20 pt-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-bold text-foreground">{t.admin.title}</h1>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">{t.admin.title}</h1>
+            {useSupabase && (
+              <p className="mt-1 text-sm text-muted-foreground">{t.admin.providerPanelSubtitle}</p>
+            )}
+          </div>
           <Button variant="outline" size="sm" onClick={onLogout} className="w-fit">
             <LogOut className="mr-2 h-4 w-4" />
             {t.admin.logout}
@@ -136,7 +183,13 @@ export function AdminPanel({ onLogout }: AdminPanelProps) {
 
         {/* Product List */}
         <div className="space-y-4">
-          {products.length === 0 ? (
+          {loading ? (
+            <Card>
+              <CardContent className="flex items-center justify-center py-16">
+                <p className="text-muted-foreground">Cargando productos...</p>
+              </CardContent>
+            </Card>
+          ) : products.length === 0 ? (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                 <Package className="mb-4 h-16 w-16 text-muted-foreground" />
