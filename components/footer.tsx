@@ -41,7 +41,7 @@ export function Footer() {
                 { href: "/ruedas-de-negocios", label: t.nav.businessRounds },
                 { href: "/request", label: t.nav.request },
                 { href: "/registro", label: t.nav.createAccount },
-                { href: "/admin", label: t.nav.login },
+                { href: "/admin/login", label: t.nav.login },
               ].map((link) => (
                 <Link
                   key={link.href}

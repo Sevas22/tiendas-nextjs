@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
-import { createServerClient } from "@/lib/supabase/server"
+import { createAnonymousServerClient } from "@/lib/supabase/server"
+import { mapPublicProduct } from "@/lib/supabase/mappers"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -8,28 +9,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid type" }, { status: 400 })
   }
   try {
-    const supabase = createServerClient()
+    const supabase = createAnonymousServerClient()
     const { data, error } = await supabase
       .from("products")
       .select("*")
       .eq("type", type)
+      .eq("status", "active")
+      .is("deleted_at", null)
       .order("created_at", { ascending: false })
     if (error) {
       console.error(error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
-    const products = (data || []).map((row) => ({
-      id: row.id,
-      name: row.name,
-      price: Number(row.price),
-      category: row.category,
-      description: row.description,
-      image: row.image,
-      type: row.type,
-      specifications: (row.specifications as Record<string, string>) || undefined,
-      techSheetUrl: row.tech_sheet_url || undefined,
-      createdAt: row.created_at,
-    }))
+    const products = (data || []).map(mapPublicProduct)
     return NextResponse.json(products)
   } catch (err) {
     console.error(err)

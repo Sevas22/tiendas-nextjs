@@ -1,3 +1,5 @@
+import type { ProductOptionGroup, ProductVariant } from "@/types/variants"
+
 export interface Product {
   id: string
   name: string
@@ -9,6 +11,10 @@ export interface Product {
   specifications?: Record<string, string>
   techSheetUrl?: string
   createdAt: string
+  hasVariants?: boolean
+  optionGroups?: ProductOptionGroup[]
+  variants?: ProductVariant[]
+  defaultVariantId?: string | null
 }
 
 export interface ProductRequest {

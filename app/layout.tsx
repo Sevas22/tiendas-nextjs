@@ -4,9 +4,9 @@ import { GoogleTagManager } from "@next/third-parties/google"
 import { Analytics } from "@vercel/analytics/next"
 import { GtmNoScript } from "@/components/analytics/gtm-noscript"
 import { Toaster } from "@/components/ui/sonner"
+import { CartProvider } from "@/contexts/cart-context"
 import { LanguageProvider } from "@/contexts/language-context"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
+import { SiteChrome } from "@/components/layout/site-chrome"
 import { defaultMetadata, gtmId, siteUrl } from "@/lib/seo/site-metadata"
 import "./globals.css"
 
@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es-VE">
+    <html lang="es-VE" className="light">
       <body className="font-sans antialiased">
         {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
         <GtmNoScript gtmId={gtmId} />
@@ -44,10 +44,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <LanguageProvider>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <Toaster position="top-right" />
+          <CartProvider>
+            <SiteChrome>{children}</SiteChrome>
+            <Toaster position="top-right" />
+          </CartProvider>
         </LanguageProvider>
         <Analytics />
       </body>

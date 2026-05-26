@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
+import { mapAuthError } from "@/lib/auth/errors"
 import { useLanguage } from "@/contexts/language-context"
 import { HeroBanner } from "@/components/hero-banner"
 import { Button } from "@/components/ui/button"
@@ -21,6 +22,7 @@ export default function RegistroPage() {
   const [phone, setPhone] = useState("")
   const [company, setCompany] = useState("")
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +44,7 @@ export default function RegistroPage() {
       return
     }
     setError("")
+    setSuccess("")
     setLoading(true)
     try {
       const supabase = createClient()
@@ -58,15 +61,18 @@ export default function RegistroPage() {
         },
       })
       if (signError) {
-        const msg =
-          signError.message.toLowerCase().includes("rate limit") ||
-          signError.message.toLowerCase().includes("email rate limit exceeded")
-            ? t.registerPage.emailRateLimit
-            : signError.message
-        setError(msg)
+        setError(mapAuthError(signError.message))
         setLoading(false)
         return
       }
+
+      // Supabase creó el usuario pero pide confirmar email (sin sesión aún)
+      if (data?.user && !data.session) {
+        setSuccess("pending_confirmation")
+        setLoading(false)
+        return
+      }
+
       if (data?.user) {
         const { data: profile } = await supabase
           .from("profiles")
@@ -74,13 +80,13 @@ export default function RegistroPage() {
           .eq("id", data.user.id)
           .single()
         if (profile?.role === "proveedor" || profile?.role === "admin") {
-          router.push("/admin")
+          router.push("/?registered=proveedor")
           return
         }
       }
-      router.push("/admin")
-    } catch {
-      setError(t.admin.wrongCredentials ?? "Error al crear la cuenta.")
+      router.push("/?registered=1")
+    } catch (err) {
+      setError(err instanceof Error ? mapAuthError(err.message) : "Error al crear la cuenta.")
     }
     setLoading(false)
   }
@@ -188,12 +194,38 @@ export default function RegistroPage() {
                     autoComplete="organization"
                   />
                 </div>
+                {success === "pending_confirmation" && (
+                  <div className="space-y-3 rounded-md border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-foreground">
+                    <p className="font-medium">Cuenta creada, pero el correo de confirmación puede no llegar.</p>
+                    <p className="text-muted-foreground">
+                      Supabase en modo gratuito envía pocos emails y muchas veces no llegan. Tu usuario ya existe en la base de datos.
+                    </p>
+                    <ol className="list-decimal space-y-1 pl-4 text-muted-foreground">
+                      <li>
+                        <strong className="text-foreground">Más fácil:</strong> en Supabase → Authentication → Providers → Email → desactiva &quot;Confirm email&quot; y vuelve a registrarte.
+                      </li>
+                      <li>
+                        <strong className="text-foreground">O</strong> en SQL Editor ejecuta{" "}
+                        <code className="rounded bg-muted px-1 text-xs">supabase/scripts/confirmar-email-manual.sql</code> con tu email.
+                      </li>
+                      <li>Luego inicia sesión en <Link href="/admin/login" className="text-primary underline">Admin</Link>.</li>
+                    </ol>
+                    <p className="text-xs text-muted-foreground">
+                      Guía completa: <code className="rounded bg-muted px-1">docs/EMAIL-SUPABASE.md</code>
+                    </p>
+                  </div>
+                )}
+                {success && success !== "pending_confirmation" && (
+                  <p className="rounded-md border border-primary/30 bg-primary/5 p-3 text-sm text-foreground">
+                    {success}
+                  </p>
+                )}
                 {error && (
                   <div className="space-y-2">
                     <p className="text-sm text-destructive">{error}</p>
                     {error === t.registerPage.noSupabase && (
                       <Button asChild variant="outline" size="sm" className="w-full">
-                        <Link href="/admin">{t.registerPage.signIn}</Link>
+                        <Link href="/admin/login">{t.registerPage.signIn}</Link>
                       </Button>
                     )}
                   </div>
@@ -204,7 +236,7 @@ export default function RegistroPage() {
               </form>
               <p className="text-center text-sm text-muted-foreground">
                 {t.registerPage.alreadyHaveAccount}{" "}
-                <Link href="/admin" className="font-medium text-primary underline hover:no-underline">
+                <Link href="/admin/login" className="font-medium text-primary underline hover:no-underline">
                   {t.registerPage.signIn}
                 </Link>
               </p>

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { createServerClient } from "@/lib/supabase/server"
-import { rowToProduct } from "@/lib/supabase/products"
+import { getPublicProductDetail } from "@/lib/supabase/public-product-detail"
 
 export async function GET(
   _request: Request,
@@ -8,16 +7,11 @@ export async function GET(
 ) {
   const { id } = await params
   try {
-    const supabase = createServerClient()
-    const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle()
-    if (error) {
-      console.error(error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-    if (!data) {
+    const product = await getPublicProductDetail(id)
+    if (!product) {
       return NextResponse.json({ error: "Not found" }, { status: 404 })
     }
-    return NextResponse.json(rowToProduct(data as Parameters<typeof rowToProduct>[0]))
+    return NextResponse.json(product)
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

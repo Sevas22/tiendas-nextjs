@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { ProductSpecificationsTable } from "@/components/product-specifications-table"
+import { VariantPicker } from "@/components/store/variant-picker"
+import { useCart } from "@/contexts/cart-context"
 import { useLanguage } from "@/contexts/language-context"
+import { toast } from "sonner"
 import { getProductById, getProducts } from "@/lib/products-store"
 import { isSupabaseConfigured } from "@/lib/supabase/client"
 import type { Product } from "@/lib/types"
@@ -20,6 +24,9 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
   const [related, setRelated] = useState<Product[]>([])
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null)
+  const [displayImage, setDisplayImage] = useState<string>("")
+  const { addLine } = useCart()
 
   useEffect(() => {
     let cancelled = false
@@ -30,6 +37,8 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
       if (found && found.type === "store") {
         if (!cancelled) {
           setProduct(found)
+          setDisplayImage(found.image)
+          setSelectedVariantId(found.id)
           const allStore = getProducts("store")
           setRelated(allStore.filter((p) => p.id !== found.id).slice(0, 3))
         }
@@ -44,6 +53,10 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
             const p: Product = await r.json()
             if (!cancelled && p.type === "store") {
               setProduct(p)
+              setDisplayImage(p.image)
+              setSelectedVariantId(
+                p.hasVariants ? p.defaultVariantId ?? p.variants?.[0]?.id ?? null : p.id
+              )
               const r2 = await fetch("/api/products?type=store")
               const list: Product[] = r2.ok ? await r2.json() : []
               const arr = Array.isArray(list) ? list : []
@@ -79,6 +92,43 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
     )
   }
 
+  const selectedVariant = product.hasVariants
+    ? product.variants?.find((v) => v.id === selectedVariantId)
+    : null
+  const unitPrice = selectedVariant?.price ?? product.price
+  const maxStock = product.hasVariants ? (selectedVariant?.stock ?? 0) : 9999
+  const variantTitle = selectedVariant?.title ?? product.name
+
+  const handleVariantSelect = (variantId: string) => {
+    setSelectedVariantId(variantId)
+    const v = product.variants?.find((x) => x.id === variantId)
+    if (v?.imageUrl) setDisplayImage(v.imageUrl)
+  }
+
+  const handleAddToCart = () => {
+    const variantId = product.hasVariants ? selectedVariantId : product.id
+    if (!variantId || (product.hasVariants && !selectedVariant)) {
+      toast.error("Selecciona una variante")
+      return
+    }
+    if (product.hasVariants && (selectedVariant?.stock ?? 0) < 1) {
+      toast.error("Variante sin stock")
+      return
+    }
+    addLine(
+      {
+        variantId,
+        productId: product.id,
+        productName: product.name,
+        variantTitle,
+        imageUrl: displayImage || product.image,
+        unitPrice,
+      },
+      quantity
+    )
+    toast.success("Añadido al carrito")
+  }
+
   return (
     <div className="bg-background pt-20 pb-10 sm:pt-24 sm:pb-12 md:pb-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -96,7 +146,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
           <div className="w-full lg:w-1/2">
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
               <Image
-                src={product.image}
+                src={displayImage || product.image}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -115,7 +165,7 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
 
             {/* Price */}
             <div className="mb-6 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-[#1A51BE]">${product.price.toFixed(2)}</span>
+              <span className="text-4xl font-bold text-[#1A51BE]">${unitPrice.toFixed(2)}</span>
               <span className="text-sm text-muted-foreground">USD</span>
             </div>
 
@@ -129,6 +179,23 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
               </h3>
               <p className="leading-relaxed text-muted-foreground">{product.description}</p>
             </div>
+
+            <ProductSpecificationsTable
+              title={t.storePage.specifications}
+              specifications={product.specifications ?? {}}
+              className="mb-6"
+            />
+
+            {product.hasVariants && product.optionGroups && product.variants && (
+              <VariantPicker
+                className="mb-6"
+                optionGroups={product.optionGroups}
+                variants={product.variants}
+                selectedVariantId={selectedVariantId}
+                onSelect={handleVariantSelect}
+                basePrice={product.price}
+              />
+            )}
 
             {/* Info items */}
             <div className="mb-6 flex flex-col gap-3">
@@ -170,28 +237,41 @@ export default function StoreProductDetailPage({ params }: { params: Promise<{ i
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setQuantity((q) => q + 1)}
+                  onClick={() => setQuantity((q) => Math.min(maxStock, q + 1))}
+                  disabled={quantity >= maxStock}
                   className="h-10 w-10"
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
                 <span className="ml-4 text-lg font-semibold text-[#1A51BE]">
-                  {t.storePage.total}: ${(product.price * quantity).toFixed(2)}
+                  {t.storePage.total}: ${(unitPrice * quantity).toFixed(2)}
                 </span>
               </div>
             </div>
 
-            {/* CTA */}
-            <Button
-              asChild
-              size="lg"
-              className="mt-auto bg-gold text-foreground shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90 hover:shadow-[0_4px_14px_rgba(204,163,0,0.35)]"
-            >
-              <Link href={`/request?product=${encodeURIComponent(product.name)}&qty=${quantity}`}>
+            <div className="mt-auto flex flex-col gap-3 sm:flex-row">
+              <Button
+                type="button"
+                size="lg"
+                className="flex-1 bg-gold text-foreground shadow-[0_2px_10px_rgba(204,163,0,0.3)] hover:bg-gold/90"
+                onClick={handleAddToCart}
+              >
                 <ShoppingBag className="mr-2 h-5 w-5" />
-                {t.storePage.contactToOrder}
-              </Link>
-            </Button>
+                Añadir al carrito
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="flex-1 border-gold"
+              >
+                <Link
+                  href={`/request?product=${encodeURIComponent(product.name)}&variant=${encodeURIComponent(variantTitle)}&qty=${quantity}`}
+                >
+                  {t.storePage.contactToOrder}
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
 

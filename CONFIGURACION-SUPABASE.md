@@ -1,5 +1,7 @@
 # Cómo configurar Supabase para venextrading
 
+> **Datos de tu proyecto (ref, URL, claves, CLI):** ver [`docs/SUPABASE-PROYECTO.md`](docs/SUPABASE-PROYECTO.md)
+
 Así puedes activar el registro de proveedores, el login por OTP y el marketplace con productos en la base de datos.
 
 ---
@@ -30,13 +32,11 @@ Cópialas; las usarás en el siguiente paso.
 2. Añade estas dos variables con tus valores reales:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://TU-PROJECT-ID.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NEXT_PUBLIC_SUPABASE_URL=https://iumphhulhzhxleomgfzx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_AKDHxCWtu47LIAqtaaNQ8g_2MyCZzjB
 ```
 
-Sustituye:
-- `TU-PROJECT-ID` por el ID de tu proyecto (o la URL completa que te muestra Supabase).
-- La clave larga por tu **anon public** key.
+(Puedes copiar desde `.env.example` o `docs/SUPABASE-PROYECTO.md`.)
 
 3. Reinicia el servidor de desarrollo (`pnpm dev` o `npm run dev`) para que cargue las variables.
 

@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { useLanguage } from "@/contexts/language-context"
 import { getProductById, getProducts } from "@/lib/products-store"
 import { isSupabaseConfigured } from "@/lib/supabase/client"
+import { ProductSpecificationsTable } from "@/components/product-specifications-table"
 import type { Product } from "@/lib/types"
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -123,27 +124,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <p className="leading-relaxed text-muted-foreground">{product.description}</p>
             </div>
 
-            {/* Specifications */}
-            {product.specifications && Object.keys(product.specifications).length > 0 && (
-              <div className="mb-6">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gold">
-                  {t.productsPage.specifications}
-                </h3>
-                <div className="overflow-hidden rounded-lg border border-border">
-                  {Object.entries(product.specifications).map(([key, value], idx) => (
-                    <div
-                      key={key}
-                      className={`flex items-center justify-between px-4 py-3 text-sm ${
-                        idx % 2 === 0 ? "bg-secondary/50" : "bg-card"
-                      }`}
-                    >
-                      <span className="font-medium text-foreground">{key}</span>
-                      <span className="text-muted-foreground">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <ProductSpecificationsTable
+              title={t.productsPage.specifications}
+              specifications={product.specifications ?? {}}
+              className="mb-6"
+            />
 
             {/* CTAs */}
             <div className="mt-auto flex flex-col gap-3 sm:flex-row">

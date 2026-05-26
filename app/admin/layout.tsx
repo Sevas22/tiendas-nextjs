@@ -1,8 +1,14 @@
 import type { Metadata } from "next"
-import { buildPageMetadata } from "@/lib/seo/page-metadata"
 
-export const metadata: Metadata = buildPageMetadata("admin")
+export const metadata: Metadata = {
+  title: "Admin | venextrading",
+  robots: { index: false, follow: false },
+}
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminRootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return children
 }
